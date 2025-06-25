@@ -38,12 +38,11 @@ jobs:
       - name: Build Docker image
         working-directory: ./user
         run: |
-          docker build -t user .  # Build image tagged as 'payment' from current directory
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/user:latest .  # Build image tagged as 'payment' from current directory
 
       - name: Docker Login (use secrets)
         run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Docker Push
         run: |
-          docker tag user ${{ secrets.DOCKERHUB_USERNAME }}/user:latest
           docker user ${{ secrets.DOCKERHUB_USERNAME }}/user:latest
