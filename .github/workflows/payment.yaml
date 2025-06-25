@@ -39,5 +39,5 @@ jobs:
 
       - name: Docker Push
         run: |
-          docker tag payment ${name}/payment:latest
-          docker push ${name}/payment:latest
+          docker tag payment ${{ secrets.DOCKERHUB_USERNAME }}/payment:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/payment:latest

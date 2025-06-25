@@ -45,5 +45,5 @@ jobs:
 
       - name: Docker Push
         run: |
-          docker tag user ${name}/user:latest
-          docker user ${name}/user:latest
+          docker tag user ${{ secrets.DOCKERHUB_USERNAME }}/user:latest
+          docker user ${{ secrets.DOCKERHUB_USERNAME }}/user:latest

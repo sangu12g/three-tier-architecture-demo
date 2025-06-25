@@ -41,5 +41,5 @@ jobs:
 
       - name: Docker Push
         run: |
-          docker tag shipping ${name}/shipping:latest
-          docker push ${name}/shipping:latest
+          docker tag shipping ${{ secrets.DOCKERHUB_USERNAME }}/shipping:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/shipping:latest
