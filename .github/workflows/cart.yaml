@@ -5,38 +5,45 @@ on:
     branches:
       - master
     paths:
-      - '**.js'  # Only trigger on changes to Python files (**.py)
-      - '.github/workflows/cart.yaml'  # Include workflow file changes
+      - '**.js'
+      - '.github/workflows/cart.yaml'
 
   pull_request:
     branches:
       - master
     paths:
-      - '**.js'  # Only trigger on changes to Python files (**.py)
-      - '.github/workflows/cart.yaml'  # Include workflow file changes
+      - '**.js'
+      - '.github/workflows/cart.yaml'
 
 jobs:
-  payment:
+  cart:
     name: Build and deploy cart microservice
-    runs-on: ubuntu-latest  # Use a standard runner instead of self-hosted
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code 
-        uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: NPM install
-        run: npm install 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'  # Adjust to your project's Node.js version
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Ensure Docker is running
+        run: |
+          sudo systemctl start docker
+          docker --version
 
       - name: Build Docker image
-        run: |
-          docker build -t cart .  # Build image tagged as 'payment' from current directory
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/cart:latest .
 
-      - name: Docker Login (use secrets)
-        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Docker Login
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
-      - name: Docker Push
-        run: |
-          docker tag cart ${name}/cart:latest
-          docker push ${name}/cart:latest
+      - name: Push Docker image
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/cart:latest
