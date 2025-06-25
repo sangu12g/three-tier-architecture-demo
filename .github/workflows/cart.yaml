@@ -32,6 +32,7 @@ jobs:
           node-version: '18'  # Adjust to your project's Node.js version
 
       - name: Install dependencies
+        working-directory: ./cart
         run: npm install
 
       - name: Ensure Docker is running
@@ -40,6 +41,7 @@ jobs:
           docker --version
 
       - name: Build Docker image
+        working-directory: ./cart
         run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/cart:latest .
 
       - name: Docker Login
