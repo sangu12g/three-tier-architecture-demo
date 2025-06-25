@@ -1,11 +1,10 @@
-# Dockerfile
 FROM golang:1.22
 
 WORKDIR /app
 
-COPY . .
+COPY main.go .
 
-RUN go mod tidy
+RUN go mod init dispatch && go mod tidy
 RUN go build -o dispatch
 
 CMD ["./dispatch"]
