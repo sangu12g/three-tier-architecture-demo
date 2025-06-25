@@ -16,4 +16,3 @@ COPY payment.ini /app/
 
 #CMD ["python", "payment.py"]
 CMD ["uwsgi", "--ini", "payment.ini"]
-

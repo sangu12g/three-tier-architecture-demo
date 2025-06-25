@@ -18,4 +18,3 @@ COPY entrypoint.sh /load/
 COPY robot-shop.py /load/
 
 CMD ["./entrypoint.sh"]
-
