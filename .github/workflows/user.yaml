@@ -26,10 +26,17 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'  # Adjust to your project's Node.js version
+
       - name: NPM install
+        working-directory: ./user
         run: npm install 
 
       - name: Build Docker image
+        working-directory: ./user
         run: |
           docker build -t user .  # Build image tagged as 'payment' from current directory
 

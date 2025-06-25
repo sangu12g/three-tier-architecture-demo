@@ -30,6 +30,7 @@ jobs:
         run: sudo apt-get install python3 
 
       - name: Build Docker image
+        working-directory: ./dispatch
         run: |
           docker build -t payment .  # Build image tagged as 'payment' from current directory
 
